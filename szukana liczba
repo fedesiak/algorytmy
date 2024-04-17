@@ -1,0 +1,104 @@
+#include <iostream>
+#include<fstream>
+using namespace std;
+
+bool isWK(string word)
+{
+    int wCount=0;
+    int kCount=0;
+    for(int i=0; i < word.length(); i++)
+    {
+        if(word[i] == 'w')
+        {
+            wCount ++;
+        }
+        else if(word[i] == 'k')
+        {
+            kCount++;
+        }
+    }
+    if(wCount == kCount)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+int howManyWakacje(string word)
+{
+    int wakacje[6];
+    for(int i =0; i < word.length(); i++)
+    {
+        switch(word[i])
+        {
+        case 'w':
+            wakacje[0]++;
+            break;
+
+        case 'a':
+            wakacje[1]++;
+            break;
+
+        case 'k':
+            wakacje[2]++;
+            break;
+
+        case 'c':
+            wakacje[3]++;
+            break;
+
+        case 'j':
+            wakacje[4]++;
+            break;
+
+        case 'e':
+            wakacje[5]++;
+            break;
+        }
+    }
+    if(wakacje[1] > 1)
+    {
+
+        if(wakacje[1] % 2 == 1)
+            wakacje[1]--;
+
+        wakacje[1]=wakacje[1] /2 ;
+        //Bubblesort
+        for(int j= 0; j<6-1; j++)
+        {
+            for(int k = 0; k < 6 - j - 1; k++)
+            {
+                if(wakacje[k] > wakacje[k +1])
+                {
+                    int temp = wakacje[k];
+                    wakacje[k] = wakacje[k+1];
+                    wakacje[k+1] = temp;
+                }
+            }
+        }
+        return wakacje[0];
+    }
+    else
+        return 0;
+
+}
+int main()
+{
+    ifstream plik("slowa.txt");
+    ofstream output("wynik.txt");
+    ofstream outputWynik2("wynik2.txt");
+    string word;
+    for(int i=0; i<50; i++)
+    {
+        plik>>word;
+        outputWynik2<<howManyWakacje(word)<<" ";
+    }
+    plik.close();
+    output.close();
+    outputWynik2.close();
+    return 0;
+}
